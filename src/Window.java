@@ -20,7 +20,7 @@ class ShapesPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.black);
-        int C = 15;
+        int C = 12;
         int[][] spots = new int[C][2];
         // 随机生成十个点
         for (int i = 0; i < C; i++) {
@@ -79,6 +79,12 @@ class ShapesPanel extends JPanel {
             g.drawLine(ax, ay, bx, by);
             current = next;
         }
+
+        final int ax = spots[0][0];
+        final int ay = spots[0][1];
+        final int bx = spots[current][0];
+        final int by = spots[current][1];
+        g.drawLine(ax, ay, bx, by);
     }
 }
 
