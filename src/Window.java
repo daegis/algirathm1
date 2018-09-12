@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -20,7 +21,7 @@ class ShapesPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         setBackground(Color.black);
-        int C = 12;
+        int C = 16;
         int[][] spots = new int[C][2];
         // 随机生成十个点
         for (int i = 0; i < C; i++) {
@@ -58,14 +59,25 @@ class ShapesPanel extends JPanel {
             System.out.println(Arrays.toString(distance));
         }
 
-        // 进行路线规划
-        final BackTSP tsp = new BackTSP(distances.length, distances);
-        tsp.solve();
-        final int minLen = tsp.getMinLen();
-        System.out.println(minLen);
-        final int[] bestX = tsp.getBestX();
-        System.out.println(Arrays.toString(bestX));
+//        // 进行路线规划
+//        final BackTSP tsp = new BackTSP(distances.length, distances);
+//        tsp.solve();
+//        final int minLen = tsp.getMinLen();
+//        System.out.println(minLen);
+//        final int[] bestX = tsp.getBestX();
+//        System.out.println(Arrays.toString(bestX));
+        long l1 = System.currentTimeMillis();
+        SpotDp spotDp = new SpotDp(distances);
+        LinkedList<String> dp = spotDp.DP();
+        long l2 = System.currentTimeMillis();
+        System.out.println("时间：" + (l2 - l1) + "ms");
+        dp.add("1");
 
+
+        int[] bestX = new int[dp.size()];
+        for (int i = 0; i < dp.size(); i++) {
+            bestX[i] = Integer.valueOf(dp.get(i)) - 1;
+        }
         // 开始画线
         g.setColor(Color.cyan);
         int current = bestX[0];
